@@ -11,7 +11,7 @@ class CartItem {
 
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
-      userId: map['userId'] ?? '',
+      userId: map['user_id'] ?? '',
       product: map['product'] ?? {},
       quantity: map['quantity'] ?? 1, // default 1 item for quantity
     );
@@ -19,7 +19,7 @@ class CartItem {
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': userId,
+      'user_id': userId,
       'product': product,
       'quantity': quantity,
     };
