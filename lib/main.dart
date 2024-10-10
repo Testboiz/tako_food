@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:tako_food/pages/dashboard.dart';
+import 'package:tako_food/pages/forgot_pass.dart';
+import 'package:tako_food/pages/login_page.dart';
+import 'package:tako_food/pages/payment_page.dart';
+import 'package:tako_food/pages/register.dart';
+import 'package:tako_food/pages/success_payment.dart';
 
 import 'firebase_options.dart';
 
@@ -21,49 +27,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  void _runBackend(BuildContext context) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(const SnackBar(content: Text("Backend Output Here")));
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Press this button to run backend code',
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _runBackend(context),
-        child: const Icon(Icons.add),
-      ),
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/dashboard': (context) => const DashboardPage(),
+        '/register': (context) => const RegisterPage(),
+        '/forgot-pass': (context) => const ForgotPasswordPage(),
+        '/payment': (context) => const PaymentPage(),
+        '/payment/success': (context) => const PaymentSuccessPage(),
+      },
     );
   }
 }
