@@ -1,21 +1,18 @@
 class UserModel {
   String nama;
-  String alamat;
-  String telp;
+  String email;
   String img;
 
   UserModel({
     required this.nama,
-    required this.alamat,
-    required this.telp,
+    required this.email,
     required this.img,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> data) {
     return UserModel(
       nama: data['name'] ?? '',
-      alamat: data['address'] ?? '',
-      telp: data['telp'] ?? '',
+      email: data['email'] ?? '',
       img: data['profile_pic'] ?? '',
     );
   }
@@ -23,8 +20,7 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return {
       'nama': nama,
-      'alamat': alamat,
-      'telp': telp,
+      'email': email,
       'image': img,
     };
   }

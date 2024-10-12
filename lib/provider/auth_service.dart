@@ -13,21 +13,21 @@ class AuthService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<User?> registerWithEmailandDetail(String email, String password,
-      String name, String address, String profilePicPath, String telp) async {
+  Future<User?> registerWithEmailUserAndPass(
+    String email,
+    String name,
+    String pass,
+  ) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email, password: pass);
       User? user = result.user;
 
       if (user != null) {
-        // String picUrl = await uploadPic(user.uid, profilePicPath);
         await _db.collection('users').doc(user.uid).set({
           'name': name,
           'email': email,
-          'address': address,
-          // 'profile_pic': picUrl,
-          'telp': telp,
+          'profile_pic': "",
         });
       }
       return user;

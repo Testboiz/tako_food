@@ -41,8 +41,6 @@ class _LoginPageState extends State<LoginPage> {
       }
     } catch (e) {
       log("$e");
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Login failed: ${e.toString()}")));
     }
   }
 

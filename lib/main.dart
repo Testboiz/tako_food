@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:tako_food/pages/dashboard.dart';
 import 'package:tako_food/pages/forgot_pass.dart';
 import 'package:tako_food/pages/login_page.dart';
 import 'package:tako_food/pages/payment_page.dart';
 import 'package:tako_food/pages/register.dart';
 import 'package:tako_food/pages/success_payment.dart';
+import 'package:tako_food/provider/user_provider.dart';
 
 import 'firebase_options.dart';
 
@@ -16,7 +18,10 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (create) => UserProvider(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
