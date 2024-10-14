@@ -154,12 +154,12 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   style: ButtonStyle(
-                    fixedSize: MaterialStateProperty.all(const Size(240, 42)),
-                    padding: MaterialStateProperty.all(
+                    fixedSize: WidgetStateProperty.all(const Size(240, 42)),
+                    padding: WidgetStateProperty.all(
                         const EdgeInsets.fromLTRB(0, 0, 0, 0)),
-                    backgroundColor: MaterialStateProperty.all(
+                    backgroundColor: WidgetStateProperty.all(
                         const Color.fromARGB(255, 50, 63, 71)),
-                    elevation: MaterialStateProperty.all(2),
+                    elevation: WidgetStateProperty.all(2),
                   ),
                   onPressed: () {
                     _login();
