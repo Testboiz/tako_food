@@ -58,10 +58,6 @@ class ScaffoldComponents {
           icon: Icon(Icons.text_snippet),
         ),
         BottomNavigationBarItem(
-          label: "Payment",
-          icon: Icon(Icons.credit_card),
-        ),
-        BottomNavigationBarItem(
           label: "Profile",
           icon: Icon(Icons.account_circle),
         ),
@@ -76,9 +72,6 @@ class ScaffoldComponents {
             page = '/history';
             break;
           case 2:
-            page = '/payment';
-            break;
-          case 3:
             page = '/profile';
             break;
           default:
