@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tako_food/components/scaffold_components.dart';
+import 'package:tako_food/model/cart_item.dart';
 import 'package:tako_food/model/product.dart';
+import 'package:tako_food/provider/cart_service.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -14,8 +17,10 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
+  final _user = FirebaseAuth.instance.currentUser;
   final TextEditingController noteController = TextEditingController();
-  int selectedSpice = 0;
+  final CartService cartService = CartService();
+  int selectedSpice = -1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,8 +88,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Tambahkan ke keranjang")),
+                    onPressed: () {
+                      String spiceNotes = "";
+                      if (selectedSpice != -1) {
+                        // if theres spice option, add spice notes
+                        spiceNotes = "Level Pedas = $selectedSpice \n";
+                      }
+                      cartService.addToCart(
+                        CartItem(
+                          userId: _user?.uid ?? "",
+                          product: widget.product.toMap(),
+                          quantity: 1,
+                          notes: spiceNotes + noteController.text,
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Ditambahkan ke Keranjang!"),
+                        ),
+                      );
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("Tambahkan ke keranjang"),
+                  ),
                 ),
               ],
             ),

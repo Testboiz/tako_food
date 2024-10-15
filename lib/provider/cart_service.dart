@@ -3,18 +3,18 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tako_food/model/cart_item.dart';
 
-class ProductService {
+class CartService {
   final CollectionReference _carts =
       FirebaseFirestore.instance.collection('cart');
 
-  void addProduct(CartItem cartItem) async {
+  void addToCart(CartItem cartItem) async {
     await _carts
         .add(cartItem.toMap())
         .then((value) => log("Success"))
         .catchError((err) => log("Something Went Wrong : $err"));
   }
 
-  Future<List<CartItem>> getProducts() async {
+  Future<List<CartItem>> getCartItems() async {
     try {
       QuerySnapshot snapshot = await _carts.get();
       return snapshot.docs
