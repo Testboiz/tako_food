@@ -61,7 +61,10 @@ class ProductService {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const ProductDetailPage()),
+                        builder: (context) => ProductDetailPage(
+                          product: product,
+                        ),
+                      ),
                     );
                   },
                   child: Card(

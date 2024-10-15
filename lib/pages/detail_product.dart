@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:tako_food/components/scaffold_components.dart';
+import 'package:tako_food/model/product.dart';
 
 class ProductDetailPage extends StatefulWidget {
-  const ProductDetailPage({super.key});
+  final Product product;
+  const ProductDetailPage({super.key, required this.product});
 
   @override
   State<ProductDetailPage> createState() => _ProductDetailPageState();
@@ -13,7 +15,7 @@ class ProductDetailPage extends StatefulWidget {
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
   final TextEditingController noteController = TextEditingController();
-  final List<int> spiceLevel = [1, 2, 3];
+  int selectedSpice = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,30 +29,52 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CarouselSlider(
-                  items: const [Placeholder(), Placeholder(), Placeholder()],
+                  items: widget.product.picUrl
+                      .map(
+                        (item) => Image.network(
+                          item,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
+                      .toList(),
                   options: CarouselOptions(viewportFraction: 1, autoPlay: true),
                 ),
                 const SizedBox(height: 20),
-                const Text("Mie Suit"),
-                const Text("""
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."""),
+                Text(widget.product.name),
+                Text(widget.product.description),
                 const SizedBox(height: 20),
-                const Text("Rp 10.000"),
+                Text("Rating : ${widget.product.rating}"),
+                // TODO : actual stars
                 const SizedBox(height: 20),
-                const Text("Tingkat Kepedasan"),
-                const SizedBox(height: 20),
-                SizedBox(
+                Text(widget.product.formattedCurrency),
+                Visibility(
+                  visible: widget.product.picUrl.length > 1,
+                  child: SizedBox(
                     height: 30,
                     width: double.infinity,
-                    child: ListView.builder(
-                        itemCount: spiceLevel.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          log(index.toString());
-                          return ElevatedButton(
-                              onPressed: () {},
-                              child: Text(spiceLevel[index].toString()));
-                        })),
+                    child: Column(
+                      children: [
+                        const Text("Tingkat Kepedasan"),
+                        const SizedBox(height: 20),
+                        ListView.builder(
+                          itemCount: widget.product.spiceLevel.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                selectedSpice = index;
+                              },
+                              child: Text(
+                                widget.product.spiceLevel[index].toString(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 20),
                 const Text("Pesan tambahan :"),
                 TextField(
