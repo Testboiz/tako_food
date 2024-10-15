@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:tako_food/provider/product_service.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -9,6 +10,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  ProductService productService = ProductService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +116,26 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Menu signature kami, gaskan"),
+                const Card(
+                  child: Column(
+                    children: [
+                      Placeholder(
+                        fallbackHeight: 200,
+                        fallbackWidth: 200,
+                      ),
+                      Text(
+                        "Mie Gacoan",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Rp. 12.000",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -122,6 +144,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Bagi kalian yang pengen pedasnya lebih berasa"),
+                productService.generateProductCards(),
                 const SizedBox(
                   height: 20,
                 ),
