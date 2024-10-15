@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:tako_food/pages/cart_page.dart';
 import 'package:tako_food/pages/dashboard.dart';
 import 'package:tako_food/pages/forgot_pass.dart';
 import 'package:tako_food/pages/login_page.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/dashboard': (context) => const DashboardPage(),
         '/register': (context) => const RegisterPage(),
         '/forgot-pass': (context) => const ForgotPasswordPage(),
+        '/cart-page': (context) => const CartPage(),
         '/payment': (context) => const PaymentPage(),
         '/payment/success': (context) => const PaymentSuccessPage(),
         '/history': (context) => const PurchaseHistory(),

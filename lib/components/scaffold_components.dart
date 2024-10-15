@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:tako_food/pages/cart_page.dart';
 
 class ScaffoldComponents {
   static AppBar generateAppBar(BuildContext context) {
     return AppBar(
       titleSpacing: 0,
+      surfaceTintColor: Colors.transparent,
       leading: const Icon(
         Icons.location_on,
         size: 40,
@@ -26,7 +28,9 @@ class ScaffoldComponents {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Placeholder()),
+              MaterialPageRoute(
+                builder: (context) => const CartPage(),
+              ),
             );
           },
           icon: const Icon(
