@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 
-class PaymentPage extends StatefulWidget {
-  const PaymentPage({super.key});
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
 
   @override
-  State<PaymentPage> createState() => _PaymentPageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> {
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -5,6 +5,8 @@ import 'package:tako_food/pages/dashboard.dart';
 import 'package:tako_food/pages/forgot_pass.dart';
 import 'package:tako_food/pages/login_page.dart';
 import 'package:tako_food/pages/payment_page.dart';
+import 'package:tako_food/pages/profile_page.dart';
+import 'package:tako_food/pages/purchase_history.dart';
 import 'package:tako_food/pages/register.dart';
 import 'package:tako_food/pages/success_payment.dart';
 import 'package:tako_food/provider/user_provider.dart';
@@ -42,6 +44,9 @@ class MyApp extends StatelessWidget {
         '/forgot-pass': (context) => const ForgotPasswordPage(),
         '/payment': (context) => const PaymentPage(),
         '/payment/success': (context) => const PaymentSuccessPage(),
+        '/history': (context) => const PurchaseHistory(),
+        '/profile': (context) => const ProfilePage(),
+        '/empty': (context) => const Placeholder(),
       },
     );
   }
