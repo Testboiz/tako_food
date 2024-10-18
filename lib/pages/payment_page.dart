@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/provider/cart_provider.dart';
-import 'package:tako_food/provider/cart_service.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});

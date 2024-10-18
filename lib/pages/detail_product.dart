@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -97,11 +95,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         // if theres spice option, add spice notes
                         spiceNotes = "Level Pedas = $selectedSpice \n";
                       }
+                      int cartQuantity = 1;
+                      for (CartItem item in cartProvider.cartItems) {
+                        if (item.product['name'] == widget.product.name) {
+                          cartQuantity = item.quantity;
+                        }
+                      }
                       cartProvider.addToCart(
                         CartItem(
                             userId: _user!.uid,
                             product: widget.product.toMap(),
-                            quantity: 1,
+                            quantity: cartQuantity,
                             notes: noteController.text),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(

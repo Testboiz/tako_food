@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tako_food/pages/cart_page.dart';
 
 class ScaffoldComponents {
   static AppBar generateAppBar(BuildContext context) {

@@ -10,7 +10,20 @@ class CartProvider with ChangeNotifier {
   final _user = FirebaseAuth.instance.currentUser;
 
   void addToCart(CartItem cartItem) {
-    _cartItems.add(cartItem);
+    bool alreadyHasSameProduct = false;
+    int? itemQuantity;
+    for (CartItem item in _cartItems) {
+      if (cartItem.product['name'] == item.product['name']) {
+        alreadyHasSameProduct = true;
+        itemQuantity = item.quantity;
+      }
+    }
+    if (alreadyHasSameProduct && itemQuantity != null) {
+      changeCartQuantity(cartItem, itemQuantity + 1);
+    } else {
+      _cartItems.add(cartItem);
+    }
+
     cartService.addToCart(cartItem);
     notifyListeners();
   }
