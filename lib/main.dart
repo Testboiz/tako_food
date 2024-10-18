@@ -10,6 +10,8 @@ import 'package:tako_food/pages/profile_page.dart';
 import 'package:tako_food/pages/purchase_history.dart';
 import 'package:tako_food/pages/register.dart';
 import 'package:tako_food/pages/success_payment.dart';
+import 'package:tako_food/provider/cart_provider.dart';
+import 'package:tako_food/provider/cart_service.dart';
 import 'package:tako_food/provider/user_provider.dart';
 
 import 'firebase_options.dart';
@@ -21,8 +23,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ChangeNotifierProvider(
-    create: (create) => UserProvider(),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => CartProvider()),
+      ChangeNotifierProvider(create: (_) => UserProvider())
+    ],
     child: const MyApp(),
   ));
 }

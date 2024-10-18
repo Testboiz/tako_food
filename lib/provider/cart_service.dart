@@ -8,22 +8,55 @@ class CartService {
       FirebaseFirestore.instance.collection('cart');
 
   void addToCart(CartItem cartItem) async {
-    await _carts
-        .add(cartItem.toMap())
-        .then((value) => log("Success"))
-        .catchError((err) => log("Something Went Wrong : $err"));
+    bool entriesAlreadyExist = false;
+    QuerySnapshot snapshot = await _carts
+        .where("product.name", isEqualTo: cartItem.product['name'])
+        .where("user_id", isEqualTo: cartItem.userId)
+        .get();
+
+    entriesAlreadyExist = snapshot.size > 0;
+
+    if (entriesAlreadyExist) {
+      changeCartQuantity(cartItem, cartItem.quantity + 1);
+    } else {
+      await _carts.add(cartItem.toMap());
+    }
   }
 
-  Future<List<CartItem>> getCartItems() async {
+  Future<List<CartItem>> getCartItems(String uid) async {
     try {
-      QuerySnapshot snapshot = await _carts.get();
-      return snapshot.docs
+      QuerySnapshot snapshot =
+          await _carts.where("user_id", isEqualTo: uid).get();
+      List<CartItem> cartItems = snapshot.docs
           .map((doc) => CartItem.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
+      return cartItems;
     } catch (err) {
       log("Something Went Wrong : $err");
       return [];
     }
+  }
+
+  Future<void> changeCartQuantity(CartItem cartItem, int newQuantity) async {
+    QuerySnapshot selectedCart = await _carts
+        .where('product.name', isEqualTo: cartItem.product['name'])
+        .where("user_id", isEqualTo: cartItem.userId)
+        .get();
+
+    if (selectedCart.docs.isNotEmpty) {
+      await _carts
+          .doc(selectedCart.docs.first.id)
+          .update({'quantity': newQuantity});
+    }
+  }
+
+  void deleteCart(CartItem cartItem, String uid) async {
+    QuerySnapshot qs = await _carts.where('user_id', isEqualTo: uid).get();
+    if (qs.docs.isEmpty) {
+      log("Cart is empty for this user");
+      return;
+    }
+    await _carts.doc(qs.docs.first.id).delete();
   }
 
   void clearCart(String uid) async {

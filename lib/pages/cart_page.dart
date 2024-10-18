@@ -1,8 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/cart_item.dart';
-import 'package:tako_food/provider/cart_service.dart';
+import 'package:tako_food/model/product.dart';
+import 'package:tako_food/provider/cart_provider.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -12,17 +13,17 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final User? _user = FirebaseAuth.instance.currentUser;
-  final CartService _cartService = CartService();
-  List<CartItem> cart = [];
   @override
   void initState() {
-    // TODO: implement initState and maybe use FutureBuilder
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<CartProvider>(context, listen: false).fetchCarts();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: ScaffoldComponents.generateAppBar(context),
       bottomNavigationBar: ScaffoldComponents.generateNavigationBar(context),
@@ -42,44 +43,67 @@ class _CartPageState extends State<CartPage> {
                       width: 400,
                       height: 700,
                       child: ListView.builder(
-                        itemCount: 1,
+                        itemCount: cartProvider.cartItems.length,
                         itemBuilder: (context, index) {
+                          CartItem cartItem = cartProvider.cartItems[index];
+                          Product cartProduct =
+                              Product.fromMap(cartItem.product);
                           return Card(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Row(
                                 children: [
-                                  const SizedBox(
+                                  SizedBox(
                                     width: 100,
                                     height: 100,
-                                    child: Placeholder(),
+                                    child:
+                                        Image.network(cartProduct.picUrl.first),
                                   ),
-                                  const Expanded(
+                                  Expanded(
                                       child: Padding(
                                     // maybe try sizedbox?
-                                    padding: EdgeInsets.all(8),
+                                    padding: const EdgeInsets.all(8),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text("Mie Suit"),
-                                        Text("Rp 10.500"),
-                                        Text("Note :"),
-                                        Text(
-                                          "notes here \n ",
-                                          maxLines: 2,
-                                          overflow: TextOverflow.ellipsis,
-                                        )
+                                        Text(cartProduct.name),
+                                        Text(cartProduct.formattedCurrency),
+                                        Visibility(
+                                          visible: cartItem.notes == '',
+                                          child: Column(
+                                            children: [
+                                              const Text('Note : '),
+                                              Text(
+                                                cartItem.notes,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                              )
+                                            ],
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                  )),
+                                  )), // TODO add delete button
+                                  // TODO only partially setstate
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      cartProvider.changeCartQuantity(
+                                          cartItem, cartItem.quantity + 1);
+                                    },
                                     icon: const Icon(Icons.add),
                                   ),
-                                  const Text("1"),
+                                  Text(cartItem.quantity.toString()),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      if (cartItem.quantity > 1) {
+                                        cartItem.quantity;
+                                        cartProvider.changeCartQuantity(
+                                            cartItem, cartItem.quantity - 1);
+                                      } else {
+                                        cartProvider.removeFromCart(cartItem);
+                                      }
+                                    },
                                     icon: const Icon(Icons.remove),
                                   ),
                                 ],
@@ -88,7 +112,7 @@ class _CartPageState extends State<CartPage> {
                           );
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

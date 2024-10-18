@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/cart_item.dart';
 import 'package:tako_food/model/product.dart';
+import 'package:tako_food/provider/cart_provider.dart';
 import 'package:tako_food/provider/cart_service.dart';
 
 class ProductDetailPage extends StatefulWidget {
@@ -23,6 +25,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   int selectedSpice = -1;
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: ScaffoldComponents.generateAppBar(context),
       bottomNavigationBar: ScaffoldComponents.generateNavigationBar(context),
@@ -94,13 +97,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         // if theres spice option, add spice notes
                         spiceNotes = "Level Pedas = $selectedSpice \n";
                       }
-                      cartService.addToCart(
+                      cartProvider.addToCart(
                         CartItem(
-                          userId: _user?.uid ?? "",
-                          product: widget.product.toMap(),
-                          quantity: 1,
-                          notes: spiceNotes + noteController.text,
-                        ),
+                            userId: _user!.uid,
+                            product: widget.product.toMap(),
+                            quantity: 1,
+                            notes: noteController.text),
                       );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
