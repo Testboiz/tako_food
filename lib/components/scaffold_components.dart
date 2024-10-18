@@ -26,12 +26,11 @@ class ScaffoldComponents {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CartPage(),
-              ),
-            );
+            final route = ModalRoute.of(context) as MaterialPageRoute?;
+            final routeName = route?.settings.name;
+            if (routeName != "/cart-page") {
+              Navigator.pushNamed(context, "/cart-page");
+            }
           },
           icon: const Icon(
             Icons.shopping_cart,

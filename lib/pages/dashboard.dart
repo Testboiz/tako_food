@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:provider/provider.dart';
 import 'package:tako_food/components/scaffold_components.dart';
-import 'package:tako_food/provider/cart_provider.dart';
 import 'package:tako_food/provider/product_service.dart';
 
 class DashboardPage extends StatefulWidget {

@@ -85,7 +85,6 @@ class _CartPageState extends State<CartPage> {
                                       ],
                                     ),
                                   )), // TODO add delete button
-                                  // TODO only partially setstate
                                   IconButton(
                                     onPressed: () {
                                       cartProvider.changeCartQuantity(
@@ -119,7 +118,9 @@ class _CartPageState extends State<CartPage> {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/payment');
+                  },
                   child: const Text("Beli Sekarang"),
                 ),
               )
