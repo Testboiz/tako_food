@@ -6,6 +6,8 @@ import 'package:tako_food/model/cart_item.dart';
 class CartService {
   final CollectionReference _carts =
       FirebaseFirestore.instance.collection('cart');
+  final CollectionReference _sales =
+      FirebaseFirestore.instance.collection('sales');
 
   void addToCart(CartItem cartItem) async {
     bool entriesAlreadyExist = false;
@@ -21,6 +23,14 @@ class CartService {
     } else {
       await _carts.add(cartItem.toMap());
     }
+  }
+
+  void addPurchase(List<CartItem> cartItems, String uid) async {
+    await _sales.add({
+      'purchase_datetime': DateTime.now(),
+      'user_id': uid,
+      'purchased_products': cartItems.map((item) => item.toMap()).toList()
+    });
   }
 
   Future<List<CartItem>> getCartItems(String uid) async {

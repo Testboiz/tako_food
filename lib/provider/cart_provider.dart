@@ -21,6 +21,12 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void buy() {
+    cartService.addPurchase(cartItems, _user!.uid);
+    clearCart();
+    notifyListeners();
+  }
+
   void removeFromCart(CartItem cartItem) {
     _cartItems.removeWhere((item) => item == cartItem);
     cartService.deleteCart(cartItem, _user!.uid);
