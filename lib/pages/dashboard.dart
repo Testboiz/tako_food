@@ -46,7 +46,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Text("Menu signature kami, gaskan"),
                 productService.generateProductCards("noodle gacoan"),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text(
                   "Mie Hompimpa",
@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Text("Bagi kalian yang pengen pedasnya lebih berasa"),
                 productService.generateProductCards("noodle hompimpa"),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text(
                   "Mie Suit",
@@ -64,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Text("Untuk kalian yang tidak suka pedas"),
                 productService.generateProductCards("noodle"),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text(
                   "Dimsum",
@@ -73,7 +73,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Text("Krenyes krenyes pendamping kalian saat makan mie"),
                 productService.generateProductCards("dimsum"),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 const Text(
                   "Minuman",
@@ -82,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Text("Cobain nih, minum yang seger seger"),
                 productService.generateProductCards("fruit drink"),
                 const SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
               ],
             ),

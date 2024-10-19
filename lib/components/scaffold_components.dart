@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tako_food/components/design_components.dart';
 
 class ScaffoldComponents {
   static AppBar generateAppBar(BuildContext context) {
     return AppBar(
       titleSpacing: 0,
-      surfaceTintColor: Colors.transparent,
-      leading: const Icon(
+      forceMaterialTransparency: true,
+      leading: Icon(
         Icons.location_on,
         size: 40,
+        color: DesignComponents.gacoanPink,
       ),
       title: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,9 +33,10 @@ class ScaffoldComponents {
               Navigator.pushNamed(context, "/cart-page");
             }
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.shopping_cart,
             size: 30,
+            color: DesignComponents.gacoanPink,
           ),
         )
       ],
