@@ -26,7 +26,11 @@ class _DashboardPageState extends State<DashboardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CarouselSlider(
-                  items: const [Placeholder(), Placeholder(), Placeholder()],
+                  items: [
+                    Image.asset('assets/img/gacoan slider 1.jpg'),
+                    Image.asset('assets/img/gacoan slider 2.jpg'),
+                    Image.asset('assets/img/gacoan promo 1.jpg')
+                  ],
                   options: CarouselOptions(
                     autoPlay: true,
                     enlargeCenterPage: true,
@@ -40,26 +44,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Menu signature kami, gaskan"),
-                const Card(
-                  child: Column(
-                    children: [
-                      Placeholder(
-                        fallbackHeight: 200,
-                        fallbackWidth: 200,
-                      ),
-                      Text(
-                        "Mie Gacoan",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Rp. 12.000",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
-                ),
+                productService.generateProductCards("noodle gacoan"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -68,7 +53,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Bagi kalian yang pengen pedasnya lebih berasa"),
-                productService.generateProductCards(),
+                productService.generateProductCards("noodle hompimpa"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -77,6 +62,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Untuk kalian yang tidak suka pedas"),
+                productService.generateProductCards("noodle"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -85,6 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Krenyes krenyes pendamping kalian saat makan mie"),
+                productService.generateProductCards("dimsum"),
                 const SizedBox(
                   height: 20,
                 ),
@@ -93,6 +80,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const Text("Cobain nih, minum yang seger seger"),
+                productService.generateProductCards("fruit drink"),
                 const SizedBox(
                   height: 20,
                 ),

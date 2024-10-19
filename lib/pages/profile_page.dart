@@ -36,11 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
             const Text("Pilih Cabang"),
             DropdownButton<String>(
               value: list.first,
-              onChanged: (String? value) {
-                setState(() {
-                  dropdownValue = value!;
-                });
-              },
+              onChanged: (String? value) {},
               items: list.map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

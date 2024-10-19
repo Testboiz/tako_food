@@ -19,9 +19,11 @@ class ProductService {
         .catchError((err) => log("Something Went Wrong : $err"));
   }
 
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts(String type) async {
     try {
-      QuerySnapshot snapshot = await _products.get();
+      final QuerySnapshot snapshot =
+          await _products.where('type', isEqualTo: type).get();
+
       return snapshot.docs
           .map((doc) => Product.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
@@ -31,9 +33,9 @@ class ProductService {
     }
   }
 
-  FutureBuilder<List<Product>> generateProductCards() {
+  FutureBuilder<List<Product>> generateProductCards(String type) {
     return FutureBuilder(
-      future: getProducts(),
+      future: getProducts(type),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
