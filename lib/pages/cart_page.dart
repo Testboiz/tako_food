@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:tako_food/components/design_components.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/cart_item.dart';
 import 'package:tako_food/model/product.dart';
@@ -37,7 +38,12 @@ class _CartPageState extends State<CartPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 10),
-                    const Text("Keranjang Saya"),
+                    const Center(
+                      child: Text(
+                        "Keranjang Saya",
+                        style: TextStyle(fontFamily: 'gotham', fontSize: 20),
+                      ),
+                    ),
                     const SizedBox(height: 20),
                     SizedBox(
                       width: 400,
@@ -60,31 +66,44 @@ class _CartPageState extends State<CartPage> {
                                         Image.network(cartProduct.picUrl.first),
                                   ),
                                   Expanded(
-                                      child: Padding(
-                                    // maybe try sizedbox?
-                                    padding: const EdgeInsets.all(8),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(cartProduct.name),
-                                        Text(cartProduct.formattedCurrency),
-                                        Visibility(
-                                          visible: cartItem.notes == '',
-                                          child: Column(
-                                            children: [
-                                              const Text('Note : '),
-                                              Text(
-                                                cartItem.notes,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              )
-                                            ],
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            cartProduct.name,
+                                            style: const TextStyle(
+                                                fontFamily: 'gotham medium'),
                                           ),
-                                        ),
-                                      ],
+                                          Text(
+                                            cartProduct.formattedCurrency,
+                                            style: const TextStyle(
+                                                fontFamily: 'gotham medium'),
+                                          ),
+                                          Visibility(
+                                            visible: cartItem.notes.isNotEmpty,
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Note : ${cartItem.notes}',
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontFamily:
+                                                          'gotham medium'),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  )), // TODO add delete button
+                                  ),
                                   IconButton(
                                     onPressed: () {
                                       cartProvider.changeCartQuantity(
@@ -100,7 +119,32 @@ class _CartPageState extends State<CartPage> {
                                         cartProvider.changeCartQuantity(
                                             cartItem, cartItem.quantity - 1);
                                       } else {
-                                        cartProvider.removeFromCart(cartItem);
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: const Text("Konfirmasi"),
+                                              content: const Text(
+                                                  "Apakah anda yakin untuk menghapus pesanan ini?"),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () {
+                                                    cartProvider.removeFromCart(
+                                                        cartItem);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Iya"),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text("Tidak"),
+                                                )
+                                              ],
+                                            );
+                                          },
+                                        );
                                       }
                                     },
                                     icon: const Icon(Icons.remove),
@@ -117,11 +161,34 @@ class _CartPageState extends State<CartPage> {
               ),
               Align(
                 alignment: Alignment.bottomCenter,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('/payment');
-                  },
-                  child: const Text("Beli Sekarang"),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      if (cartProvider.cartItems.isNotEmpty) {
+                        Navigator.of(context).pushNamed('/payment');
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Cart masih Kosong"),
+                          ),
+                        );
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        width: 3.0,
+                        color: DesignComponents.gacoanBlue,
+                      ),
+                    ),
+                    child: Text(
+                      "Beli Sekarang",
+                      style: TextStyle(
+                        fontFamily: 'gotham medium',
+                        color: DesignComponents.gacoanBlue,
+                      ),
+                    ),
+                  ),
                 ),
               )
             ],

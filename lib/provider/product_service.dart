@@ -1,5 +1,4 @@
 import 'dart:developer';
-// import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tako_food/components/design_components.dart';
 import 'package:tako_food/model/cart_item.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tako_food/model/product.dart';
-import 'package:tako_food/pages/detail_product.dart';
 import 'package:tako_food/provider/cart_provider.dart';
 
 class ProductService {
@@ -65,14 +62,6 @@ class ProductService {
                 Product product = snapshot.data![index];
                 return GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ProductDetailPage(
-                    //       product: product,
-                    //     ),
-                    //   ),
-                    // );
                     showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
@@ -162,11 +151,13 @@ class ProductService {
                                 child: TextButton(
                                   onPressed: () {
                                     String spiceNotes = "";
-                                    if (selectedSpice != -1 ||
-                                        selectedSpice != 0) {
+                                    if (selectedSpice > 0) {
                                       // if theres spice option, add spice notes
-                                      spiceNotes =
-                                          "Level Pedas = $selectedSpice \n";
+
+                                      spiceNotes = "Level $selectedSpice";
+                                      if (noteController.text.isNotEmpty) {
+                                        spiceNotes = '$spiceNotes\n';
+                                      }
                                       noteController.text =
                                           spiceNotes + noteController.text;
                                     }
@@ -197,7 +188,7 @@ class ProductService {
                                   child: Text(
                                     "Tambahkan ke keranjang",
                                     style: TextStyle(
-                                        fontFamily: 'gothic medium',
+                                        fontFamily: 'gotham medium',
                                         color: DesignComponents.gacoanPink),
                                   ),
                                 ),
