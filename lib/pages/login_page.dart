@@ -167,9 +167,9 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text(
                     'Login',
                     style: TextStyle(
-                        fontFamily: 'poppins',
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 255, 255, 255)),
+                      fontSize: 14,
+                      color: Color.fromARGB(255, 255, 255, 255),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 16),

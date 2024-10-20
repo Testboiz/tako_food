@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:tako_food/components/design_components.dart';
 
 class ScaffoldComponents {
+  static int navigationIndex = 0;
   static AppBar generateAppBar(BuildContext context) {
     return AppBar(
       titleSpacing: 0,
       forceMaterialTransparency: true,
-      leading: Icon(
-        Icons.location_on,
-        size: 40,
-        color: DesignComponents.gacoanPink,
+      leading: Opacity(
+        opacity: 0.75,
+        child: Icon(
+          Icons.location_on,
+          size: 40,
+          color: DesignComponents.gacoanPink,
+        ),
       ),
       title: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Dikirim dari : ",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            style: TextStyle(fontFamily: 'gotham', fontSize: 19),
           ),
           Text(
             "Mie Gacoan Indonesia : Daan Mogot ",
@@ -33,10 +37,13 @@ class ScaffoldComponents {
               Navigator.pushNamed(context, "/cart-page");
             }
           },
-          icon: Icon(
-            Icons.shopping_cart,
-            size: 30,
-            color: DesignComponents.gacoanPink,
+          icon: Opacity(
+            opacity: 0.75,
+            child: Icon(
+              Icons.shopping_cart,
+              size: 30,
+              color: DesignComponents.gacoanPink,
+            ),
           ),
         )
       ],
@@ -46,10 +53,9 @@ class ScaffoldComponents {
   static BottomNavigationBar generateNavigationBar(BuildContext context) {
     final route = ModalRoute.of(context) as MaterialPageRoute?;
     final routeName = route?.settings.name;
-
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      currentIndex: 0,
+      currentIndex: navigationIndex,
       fixedColor: Colors.black,
       items: const [
         BottomNavigationBarItem(
@@ -81,6 +87,7 @@ class ScaffoldComponents {
         }
         if (routeName != page) {
           Navigator.pushNamed(context, page);
+          navigationIndex = indexOfItem;
         }
       },
     );

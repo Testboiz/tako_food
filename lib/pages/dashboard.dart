@@ -41,45 +41,80 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Mie Gacoan",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontFamily: "gotham",
+                    fontSize: 20,
+                  ),
                 ),
-                const Text("Menu signature kami, gaskan"),
+                const Text(
+                  "Menu signature kami, gaskan",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 2),
                 productService.generateProductCards("noodle gacoan"),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "Mie Hompimpa",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontFamily: "gotham",
+                    fontSize: 20,
+                  ),
                 ),
-                const Text("Bagi kalian yang pengen pedasnya lebih berasa"),
+                const Text(
+                  "Bagi kalian yang pengen pedasnya lebih berasa",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 2),
                 productService.generateProductCards("noodle hompimpa"),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "Mie Suit",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontFamily: "gotham",
+                    fontSize: 20,
+                  ),
                 ),
-                const Text("Untuk kalian yang tidak suka pedas"),
+                const Text(
+                  "Bagi kalian yang tidak suka pedas",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 2),
                 productService.generateProductCards("noodle"),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "Dimsum",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontFamily: "gotham",
+                    fontSize: 20,
+                  ),
                 ),
-                const Text("Krenyes krenyes pendamping kalian saat makan mie"),
+                const Text(
+                  "Pendamping kalian saat makan mie",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 2),
                 productService.generateProductCards("dimsum"),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
-                  "Minuman",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  "Es Buah",
+                  style: TextStyle(
+                    fontFamily: "gotham",
+                    fontSize: 20,
+                  ),
                 ),
-                const Text("Cobain nih, minum yang seger seger"),
+                const Text(
+                  "Cobain nih yang seger seger",
+                  style: TextStyle(fontSize: 15),
+                ),
+                const SizedBox(height: 2),
                 productService.generateProductCards("fruit drink"),
                 const SizedBox(
                   height: 10,
