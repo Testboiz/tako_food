@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tako_food/model/cart_item.dart';
 import 'package:tako_food/provider/cart_service.dart';
 
@@ -63,5 +64,14 @@ class CartProvider with ChangeNotifier {
       cartService.changeCartQuantity(cartItem, newQuantity);
     }
     notifyListeners();
+  }
+
+  String computeTotalAndReturnFormattedString() {
+    int total = 0;
+    for (CartItem cartItem in _cartItems) {
+      total += cartItem.quantity * cartItem.product['price'] as int;
+      print(total);
+    }
+    return NumberFormat.currency(locale: 'id-ID', symbol: "Rp").format(total);
   }
 }

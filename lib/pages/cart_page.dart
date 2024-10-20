@@ -178,14 +178,14 @@ class _CartPageState extends State<CartPage> {
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(
                         width: 3.0,
-                        color: DesignComponents.gacoanBlue,
+                        color: DesignComponents.gacoanPink,
                       ),
                     ),
                     child: Text(
-                      "Beli Sekarang",
+                      "Beli Sekarang ${cartProvider.computeTotalAndReturnFormattedString()}",
                       style: TextStyle(
                         fontFamily: 'gotham medium',
-                        color: DesignComponents.gacoanBlue,
+                        color: DesignComponents.gacoanPink,
                       ),
                     ),
                   ),
