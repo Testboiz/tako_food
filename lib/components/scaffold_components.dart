@@ -24,7 +24,7 @@ class ScaffoldComponents {
           ),
           Text(
             "Mie Gacoan Indonesia : Daan Mogot ",
-            style: TextStyle(fontSize: 16),
+            style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
           )
         ],
       ),

@@ -48,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Menu signature kami, gaskan",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 productService.generateProductCards("noodle gacoan"),
@@ -64,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Bagi kalian yang pengen pedasnya lebih berasa",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 productService.generateProductCards("noodle hompimpa"),
@@ -80,7 +80,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Bagi kalian yang tidak suka pedas",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 productService.generateProductCards("noodle"),
@@ -96,7 +96,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Pendamping kalian saat makan mie",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 productService.generateProductCards("dimsum"),
@@ -112,7 +112,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 ),
                 const Text(
                   "Cobain nih yang seger seger",
-                  style: TextStyle(fontSize: 15),
+                  style: TextStyle(fontFamily: 'gotham medium', fontSize: 14),
                 ),
                 const SizedBox(height: 2),
                 productService.generateProductCards("fruit drink"),

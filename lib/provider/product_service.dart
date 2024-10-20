@@ -2,15 +2,20 @@ import 'dart:developer';
 // import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tako_food/components/design_components.dart';
+import 'package:tako_food/model/cart_item.dart';
 // import 'package:firebase_storage/firebase_storage.dart';
 import 'package:tako_food/model/product.dart';
 import 'package:tako_food/pages/detail_product.dart';
+import 'package:tako_food/provider/cart_provider.dart';
 
 class ProductService {
   final CollectionReference _products =
       FirebaseFirestore.instance.collection('products');
-  // final _storage = FirebaseStorage.instance;
+  final User? _user = FirebaseAuth.instance.currentUser;
 
   void addProduct(Product product) async {
     await _products
@@ -60,14 +65,146 @@ class ProductService {
                 Product product = snapshot.data![index];
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProductDetailPage(
-                          product: product,
-                        ),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ProductDetailPage(
+                    //       product: product,
+                    //     ),
+                    //   ),
+                    // );
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          final cartProvider =
+                              Provider.of<CartProvider>(context);
+                          TextEditingController noteController =
+                              TextEditingController();
+                          int selectedSpice = product.spiceLevel[0];
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                product.name,
+                                style: const TextStyle(
+                                    fontFamily: 'gotham', fontSize: 19),
+                              ),
+                              Text(
+                                product.formattedCurrency,
+                                style: TextStyle(
+                                    color: DesignComponents.gacoanPink,
+                                    fontSize: 20),
+                              ),
+                              Center(
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.star),
+                                    Text(product.rating.toString())
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                product.description,
+                                style: const TextStyle(
+                                    fontFamily: 'gotham medium'),
+                              ),
+                              Visibility(
+                                visible: product.spiceLevel.length > 1,
+                                child: Column(
+                                  children: [
+                                    const Text("Level Pedas"),
+                                    const SizedBox(height: 5),
+                                    Wrap(
+                                      alignment: WrapAlignment.center,
+                                      spacing: 5,
+                                      children: product.spiceLevel
+                                          .map(
+                                            (e) => IconButton(
+                                              onPressed: () {
+                                                selectedSpice = e;
+                                              },
+                                              highlightColor: Colors.black26,
+                                              style: IconButton.styleFrom(
+                                                shape: const CircleBorder(),
+                                                padding: EdgeInsets.zero,
+                                                backgroundColor: Colors.black12,
+                                                tapTargetSize:
+                                                    MaterialTapTargetSize
+                                                        .shrinkWrap,
+                                              ),
+                                              icon: Text(
+                                                e.toString(),
+                                              ),
+                                            ),
+                                          )
+                                          .toList(),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 15),
+                              TextField(
+                                decoration: InputDecoration(
+                                  labelText: "Pesan",
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                ),
+                                controller: noteController,
+                              ),
+                              Align(
+                                alignment: Alignment.bottomCenter,
+                                child: TextButton(
+                                  onPressed: () {
+                                    String spiceNotes = "";
+                                    if (selectedSpice != -1 ||
+                                        selectedSpice != 0) {
+                                      // if theres spice option, add spice notes
+                                      spiceNotes =
+                                          "Level Pedas = $selectedSpice \n";
+                                      noteController.text =
+                                          spiceNotes + noteController.text;
+                                    }
+                                    int cartQuantity = 1;
+                                    for (CartItem item
+                                        in cartProvider.cartItems) {
+                                      if (item.product['name'] ==
+                                          product.name) {
+                                        cartQuantity = item.quantity;
+                                      }
+                                    }
+                                    cartProvider.addToCart(
+                                      CartItem(
+                                        userId: _user!.uid,
+                                        product: product.toMap(),
+                                        quantity: cartQuantity,
+                                        notes: noteController.text,
+                                      ),
+                                    );
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text("Ditambahkan ke Keranjang!"),
+                                      ),
+                                    );
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text(
+                                    "Tambahkan ke keranjang",
+                                    style: TextStyle(
+                                        fontFamily: 'gothic medium',
+                                        color: DesignComponents.gacoanPink),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        });
                   },
                   child: Card(
                     child: Padding(
