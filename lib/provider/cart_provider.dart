@@ -70,7 +70,6 @@ class CartProvider with ChangeNotifier {
     int total = 0;
     for (CartItem cartItem in _cartItems) {
       total += cartItem.quantity * cartItem.product['price'] as int;
-      print(total);
     }
     return NumberFormat.currency(locale: 'id-ID', symbol: "Rp").format(total);
   }

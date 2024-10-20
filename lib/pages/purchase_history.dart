@@ -5,6 +5,8 @@ import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/sales.dart';
 import 'package:tako_food/provider/sales_service.dart';
 
+import 'package:flutter_rating_stars/flutter_rating_stars.dart';
+
 class PurchaseHistory extends StatefulWidget {
   const PurchaseHistory({super.key});
 
@@ -66,43 +68,80 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                               DateTime dateTime = DateTime.parse(datestr);
                               String formattedDate =
                                   DateFormat('d MMMM y HH:mm').format(dateTime);
-                              return Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        height: 100,
-                                        child: Image.network(
-                                            salesDataFlattened[index]["item"]
-                                                    ['product']['pic_url']
-                                                .first),
-                                      ),
-                                      Expanded(
-                                          child: Padding(
-                                        padding: const EdgeInsets.all(8),
+                              return GestureDetector(
+                                onTap: () {
+                                  double value = 5;
+                                  showModalBottomSheet(
+                                    context: context,
+                                    builder: (context) {
+                                      return SizedBox(
+                                        width: double.infinity,
                                         child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(
-                                              salesDataFlattened[index]["item"]
-                                                  ['product']['name'],
-                                              style: const TextStyle(
-                                                fontFamily: 'gotham medium',
-                                              ),
+                                            const Text(
+                                              "Berikan Rating",
+                                              style: TextStyle(
+                                                  fontFamily: 'gotham',
+                                                  fontSize: 19),
                                             ),
-                                            Text(
-                                              formattedDate,
-                                              style: const TextStyle(
-                                                fontFamily: 'gotham medium',
-                                              ),
+                                            const SizedBox(width: 10),
+                                            RatingStars(
+                                              value: value,
+                                              maxValueVisibility: false,
+                                              valueLabelVisibility: false,
+                                              starSize: 20,
+                                              onValueChanged: (v) {
+                                                setState(() {
+                                                  value = v;
+                                                });
+                                              },
                                             ),
+                                            const SizedBox(width: 20),
                                           ],
                                         ),
-                                      )),
-                                    ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 100,
+                                          height: 100,
+                                          child: Image.network(
+                                              salesDataFlattened[index]["item"]
+                                                      ['product']['pic_url']
+                                                  .first),
+                                        ),
+                                        Expanded(
+                                            child: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                salesDataFlattened[index]
+                                                    ["item"]['product']['name'],
+                                                style: const TextStyle(
+                                                  fontFamily: 'gotham medium',
+                                                ),
+                                              ),
+                                              Text(
+                                                formattedDate,
+                                                style: const TextStyle(
+                                                  fontFamily: 'gotham medium',
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               );
