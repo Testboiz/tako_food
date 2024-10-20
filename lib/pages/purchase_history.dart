@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:tako_food/components/scaffold_components.dart';
@@ -13,6 +14,7 @@ class PurchaseHistory extends StatefulWidget {
 
 class _PurchaseHistoryState extends State<PurchaseHistory> {
   SalesService salesService = SalesService();
+  final User? _user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,7 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                   width: 400,
                   height: 650,
                   child: FutureBuilder(
-                      future: salesService.getSales(),
+                      future: salesService.getSales(_user!.uid),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
@@ -52,18 +54,18 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                         } else {
                           List<Sales> sales = snapshot.data!;
                           List<Map<String, dynamic>> salesDataFlattened = [];
+
                           for (Sales sale in sales) {
                             salesDataFlattened.addAll(sale.toPurchasesMap());
                           }
                           return ListView.builder(
-                            itemCount: sales.length,
+                            itemCount: salesDataFlattened.length,
                             itemBuilder: (context, index) {
                               String datestr =
                                   salesDataFlattened[index]["date"];
                               DateTime dateTime = DateTime.parse(datestr);
                               String formattedDate =
                                   DateFormat('d MMMM y HH:mm').format(dateTime);
-
                               return Card(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:tako_food/components/design_components.dart';
 import 'package:tako_food/components/scaffold_components.dart';
+import 'package:tako_food/provider/cart_provider.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -13,6 +15,7 @@ class PaymentPage extends StatefulWidget {
 class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     return Scaffold(
       appBar: ScaffoldComponents.generateAppBar(context),
       bottomNavigationBar: ScaffoldComponents.generateNavigationBar(context),
@@ -55,6 +58,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pushNamed('/payment/success');
+                      cartProvider.buy();
                     },
                     style: OutlinedButton.styleFrom(
                       side: BorderSide(

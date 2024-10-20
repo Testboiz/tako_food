@@ -63,7 +63,6 @@ class ProductService {
                 return GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
-                        isScrollControlled: true,
                         context: context,
                         builder: (context) {
                           final cartProvider =
@@ -71,129 +70,135 @@ class ProductService {
                           TextEditingController noteController =
                               TextEditingController();
                           int selectedSpice = product.spiceLevel[0];
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                    fontFamily: 'gotham', fontSize: 19),
-                              ),
-                              Text(
-                                product.formattedCurrency,
-                                style: TextStyle(
-                                    color: DesignComponents.gacoanPink,
-                                    fontSize: 20),
-                              ),
-                              Center(
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    const Icon(Icons.star),
-                                    Text(product.rating.toString())
-                                  ],
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  product.name,
+                                  style: const TextStyle(
+                                      fontFamily: 'gotham', fontSize: 19),
                                 ),
-                              ),
-                              Text(
-                                product.description,
-                                style: const TextStyle(
-                                    fontFamily: 'gotham medium'),
-                              ),
-                              Visibility(
-                                visible: product.spiceLevel.length > 1,
-                                child: Column(
-                                  children: [
-                                    const Text("Level Pedas"),
-                                    const SizedBox(height: 5),
-                                    Wrap(
-                                      alignment: WrapAlignment.center,
-                                      spacing: 5,
-                                      children: product.spiceLevel
-                                          .map(
-                                            (e) => IconButton(
-                                              onPressed: () {
-                                                selectedSpice = e;
-                                              },
-                                              highlightColor: Colors.black26,
-                                              style: IconButton.styleFrom(
-                                                shape: const CircleBorder(),
-                                                padding: EdgeInsets.zero,
-                                                backgroundColor: Colors.black12,
-                                                tapTargetSize:
-                                                    MaterialTapTargetSize
-                                                        .shrinkWrap,
-                                              ),
-                                              icon: Text(
-                                                e.toString(),
-                                              ),
-                                            ),
-                                          )
-                                          .toList(),
-                                    )
-                                  ],
+                                Text(
+                                  product.formattedCurrency,
+                                  style: TextStyle(
+                                      color: DesignComponents.gacoanPink,
+                                      fontSize: 20),
                                 ),
-                              ),
-                              const SizedBox(height: 15),
-                              TextField(
-                                decoration: InputDecoration(
-                                  labelText: "Pesan",
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30),
+                                Center(
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.star),
+                                      Text(product.rating.toString())
+                                    ],
                                   ),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
                                 ),
-                                controller: noteController,
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: TextButton(
-                                  onPressed: () {
-                                    String spiceNotes = "";
-                                    if (selectedSpice > 0) {
-                                      // if theres spice option, add spice notes
+                                Text(
+                                  product.description,
+                                  style: const TextStyle(
+                                      fontFamily: 'gotham medium'),
+                                ),
+                                Visibility(
+                                  visible: product.spiceLevel.length > 1,
+                                  child: Column(
+                                    children: [
+                                      const Text("Level Pedas"),
+                                      const SizedBox(height: 5),
+                                      Wrap(
+                                        alignment: WrapAlignment.center,
+                                        spacing: 5,
+                                        children: product.spiceLevel
+                                            .map(
+                                              (e) => IconButton(
+                                                onPressed: () {
+                                                  selectedSpice = e;
+                                                },
+                                                highlightColor: Colors.black26,
+                                                style: IconButton.styleFrom(
+                                                  shape: const CircleBorder(),
+                                                  padding: EdgeInsets.zero,
+                                                  backgroundColor:
+                                                      Colors.black12,
+                                                  tapTargetSize:
+                                                      MaterialTapTargetSize
+                                                          .shrinkWrap,
+                                                ),
+                                                icon: Text(
+                                                  e.toString(),
+                                                ),
+                                              ),
+                                            )
+                                            .toList(),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(height: 15),
+                                TextField(
+                                  decoration: InputDecoration(
+                                    labelText: "Pesan",
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                  ),
+                                  controller: noteController,
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomCenter,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      String spiceNotes = "";
+                                      if (selectedSpice > 0) {
+                                        // if theres spice option, add spice notes
 
-                                      spiceNotes = "Level $selectedSpice";
-                                      if (noteController.text.isNotEmpty) {
-                                        spiceNotes = '$spiceNotes\n';
+                                        spiceNotes = "Level $selectedSpice";
+                                        if (noteController.text.isNotEmpty) {
+                                          spiceNotes = '$spiceNotes\n';
+                                        }
+                                        noteController.text =
+                                            spiceNotes + noteController.text;
                                       }
-                                      noteController.text =
-                                          spiceNotes + noteController.text;
-                                    }
-                                    int cartQuantity = 1;
-                                    for (CartItem item
-                                        in cartProvider.cartItems) {
-                                      if (item.product['name'] ==
-                                          product.name) {
-                                        cartQuantity = item.quantity;
+                                      int cartQuantity = 1;
+                                      for (CartItem item
+                                          in cartProvider.cartItems) {
+                                        if (item.product['name'] ==
+                                            product.name) {
+                                          cartQuantity = item.quantity;
+                                        }
                                       }
-                                    }
-                                    cartProvider.addToCart(
-                                      CartItem(
-                                        userId: _user!.uid,
-                                        product: product.toMap(),
-                                        quantity: cartQuantity,
-                                        notes: noteController.text,
-                                      ),
-                                    );
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text("Ditambahkan ke Keranjang!"),
-                                      ),
-                                    );
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Text(
-                                    "Tambahkan ke keranjang",
-                                    style: TextStyle(
-                                        fontFamily: 'gotham medium',
-                                        color: DesignComponents.gacoanPink),
+                                      cartProvider.addToCart(
+                                        CartItem(
+                                          userId: _user!.uid,
+                                          product: product.toMap(),
+                                          quantity: cartQuantity,
+                                          notes: noteController.text,
+                                        ),
+                                      );
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content:
+                                              Text("Ditambahkan ke Keranjang!"),
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text(
+                                      "Tambahkan ke keranjang",
+                                      style: TextStyle(
+                                          fontFamily: 'gotham medium',
+                                          color: DesignComponents.gacoanPink),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         });
                   },
