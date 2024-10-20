@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/sales.dart';
 import 'package:tako_food/provider/sales_service.dart';
@@ -23,7 +24,10 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
             child: Column(
               children: [
                 const SizedBox(height: 10),
-                const Text("Riwayat Pembelian"),
+                const Text(
+                  "Riwayat Pembelian",
+                  style: TextStyle(fontFamily: 'gotham', fontSize: 20),
+                ),
                 const SizedBox(height: 20),
                 SizedBox(
                   width: 400,
@@ -54,6 +58,12 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                           return ListView.builder(
                             itemCount: sales.length,
                             itemBuilder: (context, index) {
+                              String datestr =
+                                  salesDataFlattened[index]["date"];
+                              DateTime dateTime = DateTime.parse(datestr);
+                              String formattedDate =
+                                  DateFormat('d MMMM y HH:mm').format(dateTime);
+
                               return Card(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -74,10 +84,19 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(salesDataFlattened[index]
-                                                ["item"]['product']['name']),
-                                            Text(salesDataFlattened[index]
-                                                ["date"]),
+                                            Text(
+                                              salesDataFlattened[index]["item"]
+                                                  ['product']['name'],
+                                              style: const TextStyle(
+                                                fontFamily: 'gotham medium',
+                                              ),
+                                            ),
+                                            Text(
+                                              formattedDate,
+                                              style: const TextStyle(
+                                                fontFamily: 'gotham medium',
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       )),
