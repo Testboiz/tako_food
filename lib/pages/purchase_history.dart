@@ -55,6 +55,8 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                                   'Product Kosong')); // Show error if fetching failed
                         } else {
                           List<Sales> sales = snapshot.data!;
+                          sales.sort(
+                              (a, b) => (b.saleDate.compareTo(a.saleDate)));
                           List<Map<String, dynamic>> salesDataFlattened = [];
 
                           for (Sales sale in sales) {
