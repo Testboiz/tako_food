@@ -46,6 +46,19 @@ class _RegisterPageState extends State<RegisterPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _namaController,
+              decoration: InputDecoration(
+                labelText: 'Nama',
+                prefixIcon: const Icon(Icons.person),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 16.0),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
@@ -70,19 +83,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     vertical: 10.0, horizontal: 16.0),
               ),
               obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _namaController,
-              decoration: InputDecoration(
-                labelText: 'Nama',
-                prefixIcon: const Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ),
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 16.0),
-              ),
             ),
             const SizedBox(height: 16),
             SizedBox(
