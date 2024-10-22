@@ -21,6 +21,18 @@ class ProductService {
         .catchError((err) => log("Something Went Wrong : $err"));
   }
 
+  void giveRating(String productName, double rating) async {
+    final QuerySnapshot snapshot =
+        await _products.where('name', isEqualTo: productName).get();
+    final Map<String, dynamic> productMap =
+        snapshot.docs.first.data() as Map<String, dynamic>;
+    await _products.doc(snapshot.docs.first.id).update({
+      'rater': productMap['rater'] + 1,
+      'rating': (productMap['rating'] * productMap['rater'] + rating) /
+          (productMap['rater'] + 1)
+    });
+  }
+
   Future<List<Product>> getProducts(String type) async {
     try {
       final QuerySnapshot snapshot =
@@ -93,7 +105,7 @@ class ProductService {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       const Icon(Icons.star),
-                                      Text(product.rating.toString())
+                                      Text(product.rating.toStringAsFixed(2))
                                     ],
                                   ),
                                 ),

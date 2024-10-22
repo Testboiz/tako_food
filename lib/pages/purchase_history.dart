@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:intl/intl.dart';
+import 'package:tako_food/components/design_components.dart';
 import 'package:tako_food/components/scaffold_components.dart';
 import 'package:tako_food/model/sales.dart';
+import 'package:tako_food/provider/product_service.dart';
 import 'package:tako_food/provider/sales_service.dart';
-
-import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 
 class PurchaseHistory extends StatefulWidget {
   const PurchaseHistory({super.key});
@@ -15,8 +16,10 @@ class PurchaseHistory extends StatefulWidget {
 }
 
 class _PurchaseHistoryState extends State<PurchaseHistory> {
+  ProductService productService = ProductService();
   SalesService salesService = SalesService();
   final User? _user = FirebaseAuth.instance.currentUser;
+  double value = 5;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,37 +75,67 @@ class _PurchaseHistoryState extends State<PurchaseHistory> {
                                   DateFormat('d MMMM y HH:mm').format(dateTime);
                               return GestureDetector(
                                 onTap: () {
-                                  double value = 5;
                                   showModalBottomSheet(
                                     context: context,
                                     builder: (context) {
-                                      return SizedBox(
-                                        width: double.infinity,
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Text(
-                                              "Berikan Rating",
-                                              style: TextStyle(
-                                                  fontFamily: 'gotham',
-                                                  fontSize: 19),
-                                            ),
-                                            const SizedBox(width: 10),
-                                            RatingStars(
-                                              value: value,
-                                              maxValueVisibility: false,
-                                              valueLabelVisibility: false,
-                                              starSize: 20,
-                                              onValueChanged: (v) {
-                                                setState(() {
-                                                  value = v;
-                                                });
-                                              },
-                                            ),
-                                            const SizedBox(width: 20),
-                                          ],
-                                        ),
-                                      );
+                                      return StatefulBuilder(
+                                          builder: (context, modalSetState) {
+                                        return SizedBox(
+                                          width: double.infinity,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                "Berikan Rating",
+                                                style: TextStyle(
+                                                    fontFamily: 'gotham',
+                                                    fontSize: 19),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              StarRating(
+                                                  rating: value,
+                                                  allowHalfRating: false,
+                                                  onRatingChanged: (rating) {
+                                                    modalSetState(
+                                                        () => value = rating);
+                                                  }),
+                                              const SizedBox(width: 20),
+                                              OutlinedButton(
+                                                onPressed: () {
+                                                  productService.giveRating(
+                                                      salesDataFlattened[index]
+                                                              ["item"]
+                                                          ['product']['name'],
+                                                      value);
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                          "Terima kasih atas rating anda"),
+                                                    ),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                },
+                                                style: OutlinedButton.styleFrom(
+                                                  side: BorderSide(
+                                                    width: 2.0,
+                                                    color: DesignComponents
+                                                        .gacoanPink,
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  "Submit Rating",
+                                                  style: TextStyle(
+                                                    fontFamily: 'gotham medium',
+                                                    color: DesignComponents
+                                                        .gacoanPink,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
                                     },
                                   );
                                 },
